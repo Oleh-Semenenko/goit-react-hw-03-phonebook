@@ -11,6 +11,24 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parcedContacts = JSON.parse(contacts);
+
+    if (parcedContacts) {
+      this.setState({ contacts: parcedContacts });
+    }
+
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    
+    if (contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts))
+    }
+  }
+
   formSubmitHandler = ({ name, number }) => {
     const newContact = {
       id: nanoid(),
